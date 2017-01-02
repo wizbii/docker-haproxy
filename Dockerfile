@@ -1,16 +1,16 @@
 FROM debian:jessie
 
 # Ucarp
-ENV UCARP_INTERFACE lo /
-    UCARP_SOURCEADDRESS 127.0.0.1 /
-    UCARP_SOURCEPREFIX 8 /
-    UCARP_VIRTUALADDRESS 127.0.0.1 /
-    UCARP_VIRTUALPREFIX 8 /
-    UCARP_VIRTUALGATEWAY 127.0.0.1 /
-    UCARP_VHID 255 /
-    UCARP_PASS password /
-    UCARP_UPSCRIPT /etc/ucarp/vip-up.sh /
-    UCARP_DOWNSCRIPT /etc/ucarp/vip-down.sh
+ENV UCARP_INTERFACE=lo /
+    UCARP_SOURCEADDRESS=127.0.0.1 /
+    UCARP_SOURCEPREFIX=8 /
+    UCARP_VIRTUALADDRESS=127.0.0.1 /
+    UCARP_VIRTUALPREFIX=8 /
+    UCARP_VIRTUALGATEWAY=127.0.0.1 /
+    UCARP_VHID=255 /
+    UCARP_PASS=password /
+    UCARP_UPSCRIPT=/etc/ucarp/vip-up.sh /
+    UCARP_DOWNSCRIPT=/etc/ucarp/vip-down.sh
 
 RUN apt-get update && apt-get install -y ucarp netmask iptables \
 # from github.com/docker-library/haproxy/blob/master/1.7/Dockerfile

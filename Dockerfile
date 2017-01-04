@@ -1,5 +1,17 @@
 FROM debian:jessie
 
+# Lua
+RUN LUA_VERSION=5.3.3 \
+    buildDeps="libc6-dev libreadline-dev gcc curl make" \
+    && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+    && curl -L http://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz | tar xzf - \
+    && cd /lua-$LUA_VERSION \
+    && make linux test \
+    && make install \
+    && cd .. && rm /lua-$LUA_VERSION -rf \\
+    && apt-get purge -y --auto-remove $buildDeps
+
+
 # Ucarp
 ENV UCARP_INTERFACE=lo \
     UCARP_SOURCEADDRESS=127.0.0.1 \
@@ -33,6 +45,9 @@ RUN buildDeps='curl gcc libc6-dev libpcre3-dev libssl-dev make' \
 		USE_PCRE=1 PCREDIR= \
 		USE_OPENSSL=1 \
 		USE_ZLIB=1 \
+		USE_LUA=1 \
+		LUA_LIB="/usr/local/lib/lua/5.3" \
+                LUA_INC="/usr/local/include/lua5.3" \
 		all \
 		install-bin \
 	&& mkdir -p /usr/local/etc/haproxy \
